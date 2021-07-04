@@ -7,7 +7,7 @@ $buttonSubmit.onclick = function() {
         return document.querySelector(id).value;
     });
 
-    
+    document.querySelector('h1').textContent = `Bienvenido ${userData[0]}!`;
 
     return false;
 }
