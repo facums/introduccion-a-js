@@ -18,5 +18,10 @@ $buttonSubmit.onclick = function() {
 
     document.querySelector('h1').textContent = `Bienvenido ${userData[0]}!`;
 
+    $buttonShow.onclick = function(){
+        document.querySelector('#display-text').value = userData;
+        return false;
+    }
+
     return false;
 }
