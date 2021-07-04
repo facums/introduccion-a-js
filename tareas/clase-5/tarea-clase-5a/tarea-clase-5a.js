@@ -17,6 +17,7 @@ $buttonSubmit.onclick = function() {
     });
 
     document.querySelector('h1').textContent = `Bienvenido ${userData[0]}!`;
+    document.querySelector('#button-show').disabled = false;
 
     $buttonShow.onclick = function(){
         document.querySelector('#display-text').value = userData;
