@@ -52,3 +52,35 @@ $resetButton.onclick = function(){
 }
 
 
+// function that take the inputs from fields and returns an array with the sum of time
+
+function calculate(){
+
+    const $template = document.querySelectorAll('.template');
+    const $hoursArray = document.querySelectorAll('.hours-input');
+    const $minutesArray = document.querySelectorAll('.minutes-input');
+    const $secondsArray = document.querySelectorAll('.seconds-input');
+
+    let hours = 0;
+    let minutes = 0;
+    let seconds = 0;
+
+
+    for(let i=0; i < $template.length; i++){
+        hours += Number($hoursArray[i].value);
+        minutes += Number($minutesArray[i].value);
+        seconds += Number($secondsArray[i].value);
+    }
+
+
+    while(seconds >= 60){
+        minutes++;
+        seconds -= 60;
+    }
+    while(minutes >= 60){
+        hours++;
+        minutes -= 60;
+    }
+
+    return [hours,minutes,seconds];
+}
