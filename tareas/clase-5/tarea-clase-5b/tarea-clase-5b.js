@@ -21,3 +21,15 @@ $addButton.onclick = function(){
 }
 
 
+$deleteButton.onclick = function(){
+
+    const $template = document.querySelectorAll('.template');
+    
+    if($template.length > 1){
+        $template[$template.length-1].remove();
+    }
+
+    return false
+}
+
+
