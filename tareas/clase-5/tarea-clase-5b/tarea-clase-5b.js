@@ -33,3 +33,22 @@ $deleteButton.onclick = function(){
 }
 
 
+$submitButton.onclick = function(){
+
+    const time = calculate();
+    document.querySelector('#timer').textContent = `${time[0]} hour(s), ${time[1]} minute(s), ${time[2]} second(s)`;    // update the value in <h3>
+    
+    return false;
+}
+
+
+$resetButton.onclick = function(){
+
+    if(window.confirm('Do you really want to reset?')){ 
+        document.location.reload(true); // reload page 
+    }
+
+    return false;
+}
+
+
