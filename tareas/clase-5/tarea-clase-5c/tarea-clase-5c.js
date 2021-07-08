@@ -65,3 +65,39 @@ function larger(){
     $text.textContent += larger;
 }
 
+function frequent(){
+    const $items = document.getElementById('list-random-number').querySelectorAll(':scope > li');
+    const $text = document.querySelector('#em-frequent-number');
+    let numbers = [];
+    let frequentNumber;
+    let currentNumber;
+
+    for(let i=0; i < $items.length; i++){   // take the elements from <ul> and push each element in numbers
+        numbers.push(Number($items[i].textContent));
+    }
+
+    numbers = quickSort(numbers);
+    currentNumber = {value: numbers[0], repeats: 0};
+    frequentNumber = {value: '', repeats: 0};
+
+    for(let i=1; i < numbers.length; i++){
+        if(currentNumber.value == numbers[i]){
+            currentNumber.repeats++;
+        }
+        else{
+            if(currentNumber.repeats > frequentNumber.repeats){
+                Object.assign(frequentNumber, currentNumber);   // copy content inside current to frequent
+            }else{
+                currentNumber.value = numbers[i];
+                currentNumber.repeats = 0;
+            }
+        }
+    }
+
+    if(frequentNumber.value == ''){
+        $text.textContent += 'ninguno'; 
+    }else{
+        $text.textContent += frequentNumber.value;
+    }
+}
+
