@@ -37,3 +37,17 @@ function average(){
     $text.textContent += (total / $items.length).toFixed(2);
 }
 
+function smaller(){
+    const $items = document.getElementById('list-random-number').querySelectorAll(':scope > li');
+    const $text = document.querySelector('#em-smaller-number');
+    let smaller = Number($items[0].textContent);
+
+    for(let i=0; i < $items.length; i++){
+        if(Number($items[i].textContent) < smaller){
+            smaller = Number($items[i].textContent);
+        }
+    }
+
+    $text.textContent += smaller;
+}
+
