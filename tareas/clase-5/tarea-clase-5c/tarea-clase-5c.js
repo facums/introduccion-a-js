@@ -101,3 +101,19 @@ function frequent(){
     }
 }
 
+$createButton.onclick = function(){
+    const $items = document.getElementById('list-random-number').querySelectorAll(':scope > li');
+    
+    for(let i=0; i < $items.length; i++){
+        $items[i].textContent = getRandomInteger(1,200);
+    }
+
+    average();
+    smaller();
+    larger();
+    frequent();
+  
+    $createButton.setAttribute("disabled", "");
+
+    return false;
+}
