@@ -25,3 +25,15 @@ function quickSort(array){
     return [].concat(quickSort(left), pivot, quickSort(right));
 }
 
+function average(){
+    const $items = document.getElementById('list-random-number').querySelectorAll(':scope > li');
+    const $text = document.querySelector('#em-average-number');
+    let total = 0;
+
+    for(let i=0; i < $items.length; i++){
+        total += Number($items[i].textContent);
+    }
+
+    $text.textContent += (total / $items.length).toFixed(2);
+}
+
