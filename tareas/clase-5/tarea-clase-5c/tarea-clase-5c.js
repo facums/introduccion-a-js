@@ -51,3 +51,17 @@ function smaller(){
     $text.textContent += smaller;
 }
 
+function larger(){
+    const $items = document.getElementById('list-random-number').querySelectorAll(':scope > li');
+    const $text = document.querySelector('#em-larger-number');
+    let larger = Number($items[0].textContent);
+
+    for(let i=0; i < $items.length; i++){
+        if(Number($items[i].textContent) > larger){
+            larger = Number($items[i].textContent);
+        }
+    }
+
+    $text.textContent += larger;
+}
+
