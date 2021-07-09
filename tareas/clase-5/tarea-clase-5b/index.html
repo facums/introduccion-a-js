@@ -7,10 +7,10 @@
     <meta name='viewport' content='width=device-width, initial-scale=1'>
 </head>
 <body>
-    <h1 style="color: green">time calculator</h1>
-    <h3 id="timer"><strong>0 hour(s), 0 minute(s), 0 second(s)<strong></h2>
-    <form class="time-calculator-form">
-        <div class="template">
+    <h1>video time calculator</h1>
+    <h3 id="display-time"><strong>0 hour(s), 0 minute(s), 0 second(s)<strong></h2>
+    <form id="videos-form">
+        <div id="video-template" hidden>
             <input type="number" class="hours-input" placeholder="Hours">
             <input type="number" class="minutes-input" placeholder="Minutes">
             <input type="number" class="seconds-input" placeholder="Seconds">
@@ -18,10 +18,10 @@
     </form>
     <br>
     <div class="controls">
-      <button id="submit-button">Submit</button>
-      <button id="add-button">Add</button>
-      <button id="delete-button">Delete</button>
-      <button id="reset-button" >Reset</button>
+      <button id="calculate-button">Calculate</button>
+      <button id="add-video">Add</button>
+      <button id="delete-video">Delete</button>
+      <button id="reset-button" >Reload</button>
     </div>
     <script type="text/javascript" src="tarea-clase-5b.js"></script>
 </body>
