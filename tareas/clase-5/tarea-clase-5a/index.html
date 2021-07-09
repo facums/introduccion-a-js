@@ -7,18 +7,19 @@
     <meta name='viewport' content='width=device-width, initial-scale=1'>
 </head>
 <body>
-    <h1>Bienvenido!</h1>
-    <form>
+    <h1 id="welcome-title">Welcome!</h1>
+    <form id="user-data-form">
         <input type="text" placeholder="First Name" id="user-first-name"/><br>
         <input type="text" placeholder="Second Name" id="user-second-name"/><br>
-        <input type="text" placeholder="Surname" id="user-surname"/><br>
+        <input type="text" placeholder="Last Name" id="user-last-name"/><br>
         <input type="text" placeholder="Age" id="user-age"/><br>
-        <input type="submit" id="button-submit">
-        <input type="reset" onclick="document.location.reload(true)">
-        <button id="button-show" disabled>Show</button><br>
-        <p>If you click the "Submit" and "Show" buttons,<br> the form-data will be shown then.</p>
-        <input type="text" id="display-text" disabled>
     </form>
+    <div id="interface-controls">
+        <input type="submit" id="submit-button">
+        <button id="refresh-page-button">Refresh page</button>
+        <button id="show-button" hidden>Show</button><br>
+    </div>
+    <input type="text" id="text-display" disabled hidden>
     <script type="text/javascript" src="tarea-clase-5a.js"></script>
 </body>
 </html>
