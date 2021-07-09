@@ -1,86 +1,75 @@
-const $addButton = document.querySelector('#add-button');
-const $deleteButton = document.querySelector('#delete-button');
-const $submitButton = document.querySelector('#submit-button');
-const $resetButton = document.querySelector('#reset-button');
+const $addVideo = document.querySelector('#add-video');
+const $deleteVideo = document.querySelector('#delete-video');
+const $calculateVideoTime = document.querySelector('#calculate-button');
+const $reloadPage = document.querySelector('#reset-button');
 
+document.querySelector('#videos-form').appendChild(cloneVideoTimeTemplate());
 
-$addButton.onclick = function(){
-
-    const $template = document.querySelector('.template');
-    let $clone = $template.cloneNode(true);             // create clone node
-    let $aux = $clone.getElementsByTagName('input');  // auxiliar variable for all inputs within <form>
-
-
-    for(let i=0; i < $aux.length; i++){ // set fields default, because to clone with function cloneNode() copies the inside content
-        $aux[i].value = '';
-    }
-    
-    document.querySelector('.time-calculator-form').appendChild($clone);    // append to <form>
+$addVideo.onclick = function(){
+    const $videos = document.querySelector('#videos-form');          
+    $videos.appendChild(cloneVideoTimeTemplate()); 
   
     return false;
 }
 
-
-$deleteButton.onclick = function(){
-
-    const $template = document.querySelectorAll('.template');
-    
-    if($template.length > 1){
-        $template[$template.length-1].remove();
-    }
+$deleteVideo.onclick = function(){
+    const $videos = document.querySelector('#videos-form');
+    $videos.lastChild.remove()
 
     return false
 }
 
+$calculateVideoTime.onclick = function(){
+    const $displayTime = document.querySelector('#display-time');
+    const $hours = document.querySelectorAll('.hours-input');
+    const $minutes = document.querySelectorAll('.minutes-input');
+    const $seconds = document.querySelectorAll('.seconds-input');
+    let totalVideo = {hours: 0, minutes: 0, seconds: 0};
 
-$submitButton.onclick = function(){
+    for(let i=0; i < $hours.length; i++){
+        totalVideo.hours += Number($hours[i].value);
+        totalVideo.minutes += Number($minutes[i].value);
+        totalVideo.seconds += Number($seconds[i].value);
+    }
 
-    const time = calculate();
-    document.querySelector('#timer').textContent = `${time[0]} hour(s), ${time[1]} minute(s), ${time[2]} second(s)`;    // update the value in <h3>
+    Object.assign(totalVideo, calculateVideosTotalTime(totalVideo));
+    $displayTime.textContent = `${totalVideo.hours} hour(s), ${totalVideo.minutes} minute(s), ${totalVideo.seconds} second(s)`;
+
+    return false;
+}
+
+$reloadPage.onclick = function(){
+    if(window.confirm('Do you really want to reload page?')){ 
+        document.location.reload(true); 
+    }
+
+    return false;
+}
+
+function calculateVideosTotalTime(videos){
+    while(videos.seconds >= 60){
+        videos.minutes++;
+        videos.seconds -= 60;
+    }
+    while(videos.minutes >= 60){
+        videos.hours++;
+        videos.minutes -= 60;
+    }
+
+    return videos;
+}
+
+function cloneVideoTimeTemplate(){
+    const $videoTemplate = document.querySelector('#video-template');
+    const $clone = $videoTemplate.cloneNode(true);
     
-    return false;
+    return setDefault($clone);
 }
 
+function setDefault($templateClone){
+    $templateClone.hidden = false;
+    $templateClone.removeAttribute('id');
+    $templateClone.classList.add('video');
 
-$resetButton.onclick = function(){
-
-    if(window.confirm('Do you really want to reset?')){ 
-        document.location.reload(true); // reload page 
-    }
-
-    return false;
-}
-
-
-// function that take the inputs from fields and returns an array with the sum of time
-
-function calculate(){
-
-    const $template = document.querySelectorAll('.template');
-    const $hoursArray = document.querySelectorAll('.hours-input');
-    const $minutesArray = document.querySelectorAll('.minutes-input');
-    const $secondsArray = document.querySelectorAll('.seconds-input');
-
-    let hours = 0;
-    let minutes = 0;
-    let seconds = 0;
-
-
-    for(let i=0; i < $template.length; i++){
-        hours += Number($hoursArray[i].value);
-        minutes += Number($minutesArray[i].value);
-        seconds += Number($secondsArray[i].value);
-    }
-
-
-    while(seconds >= 60){
-        minutes++;
-        seconds -= 60;
-    }
-    while(minutes >= 60){
-        hours++;
-        minutes -= 60;
-    }
-
-    return [hours,minutes,seconds];
+    return $templateClone;
 }
