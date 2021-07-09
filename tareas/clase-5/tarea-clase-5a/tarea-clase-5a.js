@@ -6,23 +6,41 @@
 // Y va a cambiar el <h1> para decir "Bienvenido, nombreDeUsuario"!
 
 
-const $buttonSubmit = document.querySelector('#button-submit');
-const $buttonShow = document.querySelector('#button-show');
-const userIds = ['#user-first-name', '#user-second-name', '#user-surname', '#user-age'];
+const $submitButton = document.querySelector('#submit-button');
+const $refreshPageButton = document.querySelector('#refresh-page-button');
 
-$buttonSubmit.onclick = function() {
+function getUserData(){
+    const user = {firstName: '', secondName: '', lastName: '', age: 0};
 
-    const userData = userIds.map(function(id){   
-        return document.querySelector(id).value;
-    });
+    user.firstName = document.querySelector('#user-first-name').value;
+    user.secondName = document.querySelector('#user-second-name').value;
+    user.lastName = document.querySelector('#user-last-name').value;
+    user.age = document.querySelector('#user-age').value;
 
-    document.querySelector('h1').textContent = `Bienvenido ${userData[0]}!`;
-    document.querySelector('#button-show').disabled = false;
+    return user;
+}
 
-    $buttonShow.onclick = function(){
-        document.querySelector('#display-text').value = userData;
+$submitButton.onclick = function() {
+    const $welcomeTitle = document.querySelector('#welcome-title');
+    const $showButton = document.querySelector('#show-button');
+    const $displayText = document.querySelector('#text-display');
+    const currentUser = getUserData();
+
+    if(!currentUser.firstName || !currentUser.secondName || !currentUser.lastName || !currentUser.age) return;
+
+    $welcomeTitle.textContent = `Welcome ${currentUser.firstName}!`;
+    $showButton.hidden = false;
+
+    $showButton.onclick = function(){
+        $submitButton.disabled = true;
+        $displayText.hidden = false;
+        $displayText.value = `Full name: ${currentUser.firstName} ${currentUser.secondName} ${currentUser.lastName}, Age: ${currentUser.age}`;
         return false;
     }
 
     return false;
+}
+
+$refreshPageButton.onclick = function(){
+    document.location.reload(true);
 }
