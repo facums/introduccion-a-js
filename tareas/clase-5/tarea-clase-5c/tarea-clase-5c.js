@@ -24,7 +24,7 @@ function quickSort(array){
     return [].concat(quickSort(left), pivot, quickSort(right));
 }
 
-function average(numbers){
+function calculateAverage(numbers){
     let total = 0;
 
     for(let i=0; i < numbers.length; i++){
@@ -34,15 +34,15 @@ function average(numbers){
     return (total / numbers.length).toFixed(2);
 }
 
-function smaller(numbers){
+function calculateSmallest(numbers){
     return quickSort(numbers)[0];
 }
 
-function larger(numbers){
+function calculateBiggest(numbers){
     return quickSort(numbers)[numbers.length-1];
 }
 
-function frequent(numbers){
+function calculateMostFrequent(numbers){
     let frequentNumber = {value: null, repeats: 0};
     let currentNumber = {value: numbers[0], repeats: 0};
 
@@ -70,10 +70,6 @@ $createButton.onclick = function(){
         $items[i].textContent = getRandomInteger(1,200);
     }
 
-    average();
-    smaller();
-    larger();
-    frequent();
   
     $createButton.setAttribute("disabled", "");
 
