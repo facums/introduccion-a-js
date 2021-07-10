@@ -63,13 +63,13 @@ function cloneVideoTimeTemplate(){
     const $videoTemplate = document.querySelector('#video-template');
     const $clone = $videoTemplate.cloneNode(true);
     
-    return setDefault($clone);
+    return setAttributeToClone($clone);
 }
 
-function setDefault($templateClone){
-    $templateClone.hidden = false;
-    $templateClone.removeAttribute('id');
-    $templateClone.classList.add('video');
+function setAttributeToClone($clone){
+    $clone.hidden = false;
+    $clone.removeAttribute('id');
+    $clone.classList.add('video');
 
-    return $templateClone;
+    return $clone;
 }
