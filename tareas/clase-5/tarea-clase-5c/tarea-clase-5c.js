@@ -1,6 +1,5 @@
 const $createButton = document.querySelector('#create-button');
 
-
 function getRandomInteger(min,max){
     return parseInt((Math.random() * (max - min + 1)), 10) + min;
 }
@@ -25,60 +24,27 @@ function quickSort(array){
     return [].concat(quickSort(left), pivot, quickSort(right));
 }
 
-function average(){
-    const $items = document.getElementById('list-random-number').querySelectorAll(':scope > li');
-    const $text = document.querySelector('#em-average-number');
+function average(numbers){
     let total = 0;
 
-    for(let i=0; i < $items.length; i++){
-        total += Number($items[i].textContent);
+    for(let i=0; i < numbers.length; i++){
+        total += numbers[i];
     }
 
-    $text.textContent += (total / $items.length).toFixed(2);
+    return (total / numbers.length).toFixed(2);
 }
 
-function smaller(){
-    const $items = document.getElementById('list-random-number').querySelectorAll(':scope > li');
-    const $text = document.querySelector('#em-smaller-number');
-    let smaller = Number($items[0].textContent);
-
-    for(let i=0; i < $items.length; i++){
-        if(Number($items[i].textContent) < smaller){
-            smaller = Number($items[i].textContent);
-        }
-    }
-
-    $text.textContent += smaller;
+function smaller(numbers){
+    return quickSort(numbers)[0];
 }
 
-function larger(){
-    const $items = document.getElementById('list-random-number').querySelectorAll(':scope > li');
-    const $text = document.querySelector('#em-larger-number');
-    let larger = Number($items[0].textContent);
-
-    for(let i=0; i < $items.length; i++){
-        if(Number($items[i].textContent) > larger){
-            larger = Number($items[i].textContent);
-        }
-    }
-
-    $text.textContent += larger;
+function larger(numbers){
+    return quickSort(numbers)[numbers.length-1];
 }
 
-function frequent(){
-    const $items = document.getElementById('list-random-number').querySelectorAll(':scope > li');
-    const $text = document.querySelector('#em-frequent-number');
-    let numbers = [];
-    let frequentNumber;
-    let currentNumber;
-
-    for(let i=0; i < $items.length; i++){   // take the elements from <ul> and push each element in numbers
-        numbers.push(Number($items[i].textContent));
-    }
-
-    numbers = quickSort(numbers);
-    currentNumber = {value: numbers[0], repeats: 0};
-    frequentNumber = {value: '', repeats: 0};
+function frequent(numbers){
+    let frequentNumber = {value: null, repeats: 0};
+    let currentNumber = {value: numbers[0], repeats: 0};
 
     for(let i=1; i < numbers.length; i++){
         if(currentNumber.value == numbers[i]){
@@ -86,7 +52,7 @@ function frequent(){
         }
         else{
             if(currentNumber.repeats > frequentNumber.repeats){
-                Object.assign(frequentNumber, currentNumber);   // copy content inside current to frequent
+                Object.assign(frequentNumber, currentNumber);   
             }else{
                 currentNumber.value = numbers[i];
                 currentNumber.repeats = 0;
@@ -94,11 +60,7 @@ function frequent(){
         }
     }
 
-    if(frequentNumber.value == ''){
-        $text.textContent += 'ninguno'; 
-    }else{
-        $text.textContent += frequentNumber.value;
-    }
+    return frequentNumber.value;
 }
 
 $createButton.onclick = function(){
