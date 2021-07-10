@@ -32,7 +32,7 @@ $calculateVideoTime.onclick = function(){
         totalVideo.seconds += Number($seconds[i].value);
     }
 
-    Object.assign(totalVideo, calculateVideosTotalTime(totalVideo));
+    totalVideo = calculateVideosTotalTime(totalVideo);
     $displayTime.textContent = `${totalVideo.hours} hour(s), ${totalVideo.minutes} minute(s), ${totalVideo.seconds} second(s)`;
 
     return false;
@@ -47,14 +47,10 @@ $reloadPage.onclick = function(){
 }
 
 function calculateVideosTotalTime(videos){
-    while(videos.seconds >= 60){
-        videos.minutes++;
-        videos.seconds -= 60;
-    }
-    while(videos.minutes >= 60){
-        videos.hours++;
-        videos.minutes -= 60;
-    }
+    videos.minutes += Math.trunc(videos.seconds / 60);
+    videos.seconds %= 60;
+    videos.hours += Math.trunc(videos.minutes / 60);
+    videos.minutes %= 60;
 
     return videos;
 }
