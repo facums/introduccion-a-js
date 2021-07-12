@@ -1,4 +1,4 @@
-const $createButton = document.querySelector('#create-button');
+
 
 function getRandomInteger(min,max){
     return parseInt((Math.random() * (max - min + 1)), 10) + min;
@@ -35,11 +35,11 @@ function calculateAverage(numbers){
 }
 
 function calculateSmallest(numbers){
-    return quickSort(numbers)[0];
+    return numbers[0];
 }
 
 function calculateBiggest(numbers){
-    return quickSort(numbers)[numbers.length-1];
+    return numbers[numbers.length-1];
 }
 
 function calculateMostFrequent(numbers){
@@ -63,15 +63,8 @@ function calculateMostFrequent(numbers){
     return frequentNumber.value;
 }
 
-$createButton.onclick = function(){
-    const $items = document.getElementById('list-random-number').querySelectorAll(':scope > li');
-    
-    for(let i=0; i < $items.length; i++){
-        $items[i].textContent = getRandomInteger(1,200);
-    }
-
-  
-    $createButton.setAttribute("disabled", "");
-
-    return false;
+function calculateResults(numbers){
+    const sortedNumbers = quickSort(numbers);
+    return [calculateAverage(numbers), calculateSmallest(sortedNumbers), calculateBiggest(sortedNumbers), calculateMostFrequent(sortedNumbers)];
 }
+
