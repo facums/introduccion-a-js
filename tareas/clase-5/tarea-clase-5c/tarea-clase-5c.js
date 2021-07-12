@@ -1,4 +1,5 @@
-
+const $generateNumbers = document.getElementById('btn-generate-numbers');
+const $reset = document.getElementById('btn-reset');
 
 function getRandomInteger(min,max){
     return parseInt((Math.random() * (max - min + 1)), 10) + min;
@@ -66,5 +67,42 @@ function calculateMostFrequent(numbers){
 function calculateResults(numbers){
     const sortedNumbers = quickSort(numbers);
     return [calculateAverage(numbers), calculateSmallest(sortedNumbers), calculateBiggest(sortedNumbers), calculateMostFrequent(sortedNumbers)];
+}
+
+function getNumberRange(){
+    return [+document.getElementById('min-value').value, +document.getElementById('max-value').value];
+}
+
+function getSizeOfList(){
+    return +document.getElementById('length').value;
+}
+
+function createNumber(){
+    const $number = document.createElement('li');
+    const [minValue, maxValue] = getNumberRange();
+
+    $number.className = 'number';
+    $number.textContent = getRandomInteger(minValue, maxValue);
+    return $number;
+}
+
+function createListOfNumbers(){
+    const $listOfNumbers = document.getElementById('list-of-numbers');
+    const size = getSizeOfList();
+
+    for(let i=0; i < size; i++){
+        $listOfNumbers.appendChild(createNumber());
+    }
+}
+
+function getListOfNumbers(){
+    const $numbers = document.querySelectorAll('.number');
+    const array = [...new Array($numbers.length)];
+
+    for(let i=0; i < array.length; i++){
+        array[i] = +$numbers[i].textContent;
+    }
+
+    return array;
 }
 
