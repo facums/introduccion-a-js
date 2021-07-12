@@ -106,3 +106,16 @@ function getListOfNumbers(){
     return array;
 }
 
+function addResult(type, value){
+    document.querySelector(`#${type}`).textContent = value;
+}
+
+function addAllResults(numbers){
+    const [average, smallestNumber, biggestNumber, mostFrequentNumber] = calculateResults(numbers);
+
+    addResult('average-number', average);
+    addResult('smallest-number', smallestNumber);
+    addResult('biggest-number', biggestNumber);
+    addResult('most-frequent-number', mostFrequentNumber);
+}
+
