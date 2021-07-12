@@ -119,3 +119,40 @@ function addAllResults(numbers){
     addResult('most-frequent-number', mostFrequentNumber);
 }
 
+function showElementById(name){
+    document.getElementById(name).removeAttribute('hidden');
+}
+
+function hideElementById(name){
+    document.getElementById(name).hidden = true;
+}
+
+function enableElementById(name){
+    document.getElementById(name).disabled = false;
+}
+
+function disableElementById(name){
+    document.getElementById(name).disabled = true;
+}
+
+function deleteAllChildNodes(parentID){
+    $parent = document.getElementById(parentID);
+    while($parent.firstChild){
+        $parent.removeChild($parent.lastChild);
+    }
+}
+
+$generateNumbers.onclick = function(){
+    let listOfNumbers;
+
+    createListOfNumbers();
+    listOfNumbers = getListOfNumbers();
+    
+    if(listOfNumbers.firstChild !== null){
+        addAllResults(getListOfNumbers());
+        showElementById('results-paragraph');
+        disableElementById('btn-generate-numbers');
+    }
+    return false;
+}
+
