@@ -156,3 +156,11 @@ $generateNumbers.onclick = function(){
     return false;
 }
 
+$reset.onclick = function(){
+    deleteAllChildNodes('list-of-numbers');
+    hideElementById('results-paragraph');
+    enableElementById('btn-generate-numbers');
+
+    return false;
+}
+
