@@ -148,7 +148,7 @@ $generateNumbers.onclick = function(){
     createListOfNumbers();
     listOfNumbers = getListOfNumbers();
     
-    if(listOfNumbers.firstChild !== null){
+    if(listOfNumbers.firstChild === null){
         addAllResults(getListOfNumbers());
         showElementById('results-paragraph');
         disableElementById('btn-generate-numbers');
