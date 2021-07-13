@@ -149,7 +149,7 @@ $generateNumbers.onclick = function(){
     listOfNumbers = getListOfNumbers();
     
     if(listOfNumbers.length !== 0){
-        addAllResults(getListOfNumbers());
+        addAllResults(listOfNumbers);
         showElementById('results-paragraph');
         disableElementById('btn-generate-numbers');
     }
