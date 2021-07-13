@@ -1,26 +1,11 @@
 const $addVideo = document.querySelector('#add-video');
 const $deleteVideo = document.querySelector('#delete-video');
 const $calculateVideoTime = document.querySelector('#calculate-button');
-const $reloadPage = document.querySelector('#reset-button');
+const $reloadPage = document.querySelector('#reload-button');
 
-document.querySelector('#videos-form').appendChild(cloneVideoTimeTemplate());
+addVideoFields();
 
-$addVideo.onclick = function(){
-    const $videos = document.querySelector('#videos-form');          
-    $videos.appendChild(cloneVideoTimeTemplate()); 
-  
-    return false;
-}
-
-$deleteVideo.onclick = function(){
-    const $videos = document.querySelector('#videos-form');
-    $videos.lastChild.remove()
-
-    return false
-}
-
-$calculateVideoTime.onclick = function(){
-    const $displayTime = document.querySelector('#display-time');
+function addVideoInputs(){
     const $hours = document.querySelectorAll('.hours-input');
     const $minutes = document.querySelectorAll('.minutes-input');
     const $seconds = document.querySelectorAll('.seconds-input');
@@ -32,8 +17,60 @@ $calculateVideoTime.onclick = function(){
         totalVideo.seconds += Number($seconds[i].value);
     }
 
-    totalVideo = calculateVideosTotalTime(totalVideo);
-    $displayTime.textContent = `${totalVideo.hours} hour(s), ${totalVideo.minutes} minute(s), ${totalVideo.seconds} second(s)`;
+    return totalVideo;
+}
+
+function formatVideoTime(video){
+    video.minutes += Math.trunc(video.seconds / 60);
+    video.seconds %= 60;
+    video.hours += Math.trunc(video.minutes / 60);
+    video.minutes %= 60;
+
+    return video;
+}
+
+function showVideoTime(video){
+    document.getElementById('hours-result').textContent = video.hours;
+    document.getElementById('minutes-result').textContent = video.minutes;
+    document.getElementById('seconds-result').textContent = video.seconds;
+}
+
+function cloneVideoFields(){
+    const $videoTemplate = document.querySelector('#video-template');
+    const $clone = $videoTemplate.cloneNode(true);
+    
+    return addAttributesVideoFields($clone);
+}
+
+function addAttributesVideoFields($videoFields){
+    $videoFields.hidden = false;
+    $videoFields.removeAttribute('id');
+    $videoFields.classList.add('video');
+
+    return $videoFields;
+}
+
+function addVideoFields(){
+    const $videos = document.querySelector('#videos-form');          
+    $videos.appendChild(cloneVideoFields()); 
+}
+
+$addVideo.onclick = function(){
+    addVideoFields();
+    return false;
+}
+
+$deleteVideo.onclick = function(){
+    const $videoForm = document.querySelector('#videos-form');
+    const $videoFields = document.querySelectorAll('.video');
+
+    if($videoFields.length > 1) $videoForm.lastChild.remove();
+    return false;
+}
+
+$calculateVideoTime.onclick = function(){
+    const videoTime = formatVideoTime(addVideoInputs());
+    showVideoTime(videoTime);
 
     return false;
 }
@@ -44,28 +81,4 @@ $reloadPage.onclick = function(){
     }
 
     return false;
-}
-
-function calculateVideosTotalTime(videos){
-    videos.minutes += Math.trunc(videos.seconds / 60);
-    videos.seconds %= 60;
-    videos.hours += Math.trunc(videos.minutes / 60);
-    videos.minutes %= 60;
-
-    return videos;
-}
-
-function cloneVideoTimeTemplate(){
-    const $videoTemplate = document.querySelector('#video-template');
-    const $clone = $videoTemplate.cloneNode(true);
-    
-    return setAttributeToClone($clone);
-}
-
-function setAttributeToClone($clone){
-    $clone.hidden = false;
-    $clone.removeAttribute('id');
-    $clone.classList.add('video');
-
-    return $clone;
 }
