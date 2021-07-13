@@ -1,0 +1,15 @@
+body {
+    font: 1rem 'Fira Sans', sans-serif;
+}
+
+input {
+    margin: .4rem;
+}
+
+button {
+  margin: .2rem;
+}
+
+#results-paragraph > em > span{
+  font-weight: bolder;
+}
