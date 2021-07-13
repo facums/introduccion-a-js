@@ -9,7 +9,3 @@ input {
 button {
   margin: .2rem;
 }
-
-#results-paragraph > em > span{
-  font-weight: bolder;
-}
