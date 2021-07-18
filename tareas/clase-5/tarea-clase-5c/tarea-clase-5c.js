@@ -136,7 +136,7 @@ function disableElementById(name){
 }
 
 function deleteAllChildNodes(parentID){
-    $parent = document.getElementById(parentID);
+    const $parent = document.getElementById(parentID);
     while($parent.firstChild){
         $parent.removeChild($parent.lastChild);
     }
