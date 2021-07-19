@@ -41,14 +41,14 @@ function calculateSalaryStatistic(annualSalaries) {
 
 function getAnnualSalaries(){
     const $annualSalariesInputs = Array.from(document.querySelectorAll('.annual-salary'));
-    const annualSalaries = $annualSalariesInputs.map(annualSalary => +annualSalary.value);
+    const annualSalaries = $annualSalariesInputs.map($annualSalary => +$annualSalary.value).filter(Boolean);
 
     return annualSalaries;
 }
 
 function showSalaryStatistic(annualSalaries){
     const [higherSalary, lowerSalary, annualSalaryAverage, monthlySalaryAverage] = calculateSalaryStatistic(annualSalaries);
-
+    
     document.getElementById('higher-salary').textContent = higherSalary;
     document.getElementById('lower-salary').textContent = lowerSalary;
     document.getElementById('annual-salary-average').textContent = annualSalaryAverage;
