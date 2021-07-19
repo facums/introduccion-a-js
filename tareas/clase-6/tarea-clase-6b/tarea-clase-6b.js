@@ -39,7 +39,7 @@ function calculateSalaryStatistic(annualSalaries) {
     return [higherSalary, lowerSalary, annualSalaryAverage, monthlySalaryAverage];
 }
 
-function getMembersAnnualSalaries(){
+function getAnnualSalaries(){
     const $annualSalariesInputs = Array.from(document.querySelectorAll('.annual-salary'));
     const annualSalaries = $annualSalariesInputs.map(annualSalary => +annualSalary.value);
 
@@ -80,7 +80,7 @@ function wipeSalariesForm(){
 }
 
 $calculateSalary.addEventListener('click', function(event){
-    const annualSalaries = getMembersAnnualSalaries();
+    const annualSalaries = getAnnualSalaries();
 
     showSalaryStatistic(annualSalaries);
     event.preventDefault();
