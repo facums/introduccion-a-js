@@ -2,10 +2,10 @@
 
 const $createMembers = document.getElementById('btn-next');
 const $calculateMembers = document.getElementById('btn-calculate');
-const $reset = document.getElementById('btn-reset');
+const $resetForm = document.getElementById('btn-reset');
 
 function addAgeFields(number){
-    const $membersForm = document.getElementById('members-age-form');
+    const $membersForm = document.getElementById('members-age-inputs');
 
     const createMember = (i) => {
         const $div = document.createElement('div');
@@ -13,6 +13,7 @@ function addAgeFields(number){
         const $input = document.createElement('input');
 
         $label.textContent = `Family member #${i}`;
+        $input.type = 'number';
         $input.className = 'members-age';
         $div.className = 'member';
 
@@ -36,9 +37,10 @@ function getMembersAge(){
 
 function calculateAgeStatistic(ages){
     const sum = (accu, current) => accu + current;
+    const totalAges = ages.reduce(sum, 0);
     const oldestAge = Math.max(...ages);
     const youngestAge = Math.min(...ages);
-    const averageAge = ages.reduce(sum, 0) / ages.length;
+    const averageAge = totalAges / ages.length;
 
     return [oldestAge, youngestAge, averageAge];
 }
@@ -60,14 +62,6 @@ function hideElementById(name){
     document.getElementById(name).hidden = true;
 }
 
-function enableElementById(name){
-    document.getElementById(name).disabled = false;
-}
-
-function disableElementById(name){
-    document.getElementById(name).disabled = true;
-}
-
 function deleteAllChildNodes(parentID){
     const $parent = document.getElementById(parentID);
 
@@ -77,7 +71,7 @@ function deleteAllChildNodes(parentID){
 }
 
 function wipeAgesForm(){
-    deleteAllChildNodes('members-age-form');
+    deleteAllChildNodes('members-age-inputs');
     hideElementById('age-statistic');
     hideElementById('btns-age-inputs');
 }
@@ -102,7 +96,7 @@ $calculateMembers.addEventListener('click', function(event){
     event.preventDefault(event);
 })
 
-$reset.addEventListener('click', function(event){
+$resetForm.addEventListener('click', function(event){
     wipeAgesForm();
     event.preventDefault(event);
 })
