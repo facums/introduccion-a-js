@@ -5,78 +5,78 @@ const $addMember = document.getElementById('btn-add');
 const $deleteMember = document.getElementById('btn-delete');
 const $resetForm = document.getElementById('btn-reset');
 
+const createMember = (i) => {
+    const $member = document.createElement('div');
+    const $memberNumber = document.createElement('label');
+    const $memberAnnualSalary = document.createElement('input');
+
+    $memberNumber.textContent = `Annual salary of the family member #${i}`;
+    $memberAnnualSalary.type = 'number';
+    $memberAnnualSalary.className = 'annual-salary';
+    $member.className = 'members';
+
+    $member.appendChild($memberNumber);
+    $member.appendChild($memberAnnualSalary);
+
+    return $member;
+}
+
 function addSalaryField(){
     const $membersAnnualSalaryInputs = document.getElementById('members-salary-inputs');
-    const indexMembers = document.getElementsByClassName('members').length + 1;
-    const createMember = (i) => {
-        const $div = document.createElement('div');
-        const $label = document.createElement('label');
-        const $input = document.createElement('input');
+    const memberNumber = document.getElementsByClassName('members').length + 1;
 
-        $label.textContent = `Annual salary of the family member #${i}`;
-        $input.type = 'number';
-        $input.className = 'annual-salary';
-        $div.className = 'members';
-
-        $div.appendChild($label);
-        $div.appendChild($input);
-
-        return $div;
-    }
-
-    $membersAnnualSalaryInputs.appendChild(createMember(indexMembers));
+    $membersAnnualSalaryInputs.appendChild(createMember(memberNumber));
 }
 
 function calculateSalaryStatistic(annualSalaries) {
     const MONTHS = 12;
     const sum = (accu, current) => accu + current;
     const totalAnnualSalaries = annualSalaries.reduce(sum, 0);
-    const higherSalary = Math.max(...annualSalaries);
-    const lowerSalary = Math.min(...annualSalaries);
-    const annualSalaryAverage = (totalAnnualSalaries / annualSalaries.length).toFixed(2);
-    const monthlySalaryAverage = ((totalAnnualSalaries / MONTHS) / annualSalaries.length).toFixed(2);
 
-    return [higherSalary, lowerSalary, annualSalaryAverage, monthlySalaryAverage];
+    return {
+        higherSalary: Math.max(...annualSalaries),
+        lowerSalary: Math.min(...annualSalaries),
+        annualSalaryAverage: (totalAnnualSalaries / annualSalaries.length).toFixed(2),
+        monthlySalaryAverage: ((totalAnnualSalaries / MONTHS) / annualSalaries.length).toFixed(2)
+    }
 }
 
 function getAnnualSalaries(){
     const $annualSalariesInputs = Array.from(document.querySelectorAll('.annual-salary'));
-    const annualSalaries = $annualSalariesInputs.map($annualSalary => +$annualSalary.value).filter(Boolean);
+    const annualSalaries = $annualSalariesInputs.map($annualSalary => Number($annualSalary.value)).filter(Boolean);
 
     return annualSalaries;
 }
 
 function showSalaryStatistic(annualSalaries){
-    const [higherSalary, lowerSalary, annualSalaryAverage, monthlySalaryAverage] = calculateSalaryStatistic(annualSalaries);
+    const { higherSalary, lowerSalary, annualSalaryAverage, monthlySalaryAverage } = calculateSalaryStatistic(annualSalaries);
     
     document.getElementById('higher-salary').textContent = higherSalary;
     document.getElementById('lower-salary').textContent = lowerSalary;
     document.getElementById('annual-salary-average').textContent = annualSalaryAverage;
     document.getElementById('monthly-salary-average').textContent = monthlySalaryAverage;
     
-    showElementById('salary-statistic');
+    showElement(form.querySelector('#salary-statistic'));
 }
 
-function showElementById(name){
-    document.getElementById(name).removeAttribute('hidden');
+function showElement(element){
+    element.removeAttribute('hidden');
 }
 
-function hideElementById(name){
-    document.getElementById(name).hidden = true;
+function hideElement(element){
+    element.hidden = true;
 }
 
-function deleteAllChildNodes(parentID){
-    const $parent = document.getElementById(parentID);
-
-    while($parent.firstChild){
-        $parent.removeChild($parent.lastChild);
+function deleteAllChildNodes(element){
+    while(element.firstChild){
+        element.removeChild(element.lastChild);
     }
 }
 
 function wipeSalariesForm(){
-    deleteAllChildNodes('members-salary-inputs');
+    deleteAllChildNodes(form.querySelector('#members-salary-inputs'));
     addSalaryField();
-    hideElementById('salary-statistic');
+    hideElement(form.querySelector('salary-statistic'));
 }
 
 $calculateSalary.addEventListener('click', function(event){
@@ -95,7 +95,6 @@ $deleteMember.addEventListener('click', function(event){
     const $membersAnnualSalaryInputs = document.getElementById('members-salary-inputs');
 
     if($membersAnnualSalaryInputs.firstChild.nextSibling) $membersAnnualSalaryInputs.lastChild.remove();
-
     event.preventDefault();
 })
 
