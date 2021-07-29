@@ -1,5 +1,6 @@
 const $generateNumbers = document.getElementById('btn-generate-numbers');
-const $reset = document.getElementById('btn-reset');
+const $calculateNumbers = document.getElementById('btn-calculate-numbers');
+const $resetList = document.getElementById('btn-reset');
 
 function getRandomInteger(min,max){
     return parseInt((Math.random() * (max - min + 1)), 10) + min;
@@ -35,14 +36,6 @@ function calculateAverage(numbers){
     return (total / numbers.length).toFixed(2);
 }
 
-function calculateSmallest(numbers){
-    return numbers[0];
-}
-
-function calculateBiggest(numbers){
-    return numbers[numbers.length-1];
-}
-
 function calculateMostFrequent(numbers){
     let frequentNumber = {value: null, repeats: 0};
     let currentNumber = {value: numbers[0], repeats: 0};
@@ -66,15 +59,21 @@ function calculateMostFrequent(numbers){
 
 function calculateResults(numbers){
     const sortedNumbers = quickSort(numbers);
-    return [calculateAverage(numbers), calculateSmallest(sortedNumbers), calculateBiggest(sortedNumbers), calculateMostFrequent(sortedNumbers)];
+
+    return {
+        smallestNumber: sortedNumbers[0],
+        biggestNumber: sortedNumbers[sortedNumbers.length-1],
+        averageNumber: calculateAverage(sortedNumbers),
+        mostFrequentNumber: calculateMostFrequent(sortedNumbers)
+    }
 }
 
 function getNumberRange(){
-    return [+document.getElementById('min-value').value, +document.getElementById('max-value').value];
+    return [Number(document.getElementById('min-value').value), Number(document.getElementById('max-value').value)];
 }
 
 function getSizeOfList(){
-    return +document.getElementById('length').value;
+    return Number(document.getElementById('size-of-list').value);
 }
 
 function createNumber(){
@@ -89,78 +88,79 @@ function createNumber(){
 function createListOfNumbers(){
     const $listOfNumbers = document.getElementById('list-of-numbers');
     const size = getSizeOfList();
+    let $randomNumber;
 
     for(let i=0; i < size; i++){
-        $listOfNumbers.appendChild(createNumber());
+        $randomNumber = createNumber();
+        $listOfNumbers.appendChild($randomNumber);
     }
 }
 
 function getListOfNumbers(){
     const $numbers = document.querySelectorAll('.number');
-    const array = [...new Array($numbers.length)];
+    const listOfNumbers = [];
 
-    for(let i=0; i < array.length; i++){
-        array[i] = +$numbers[i].textContent;
+    for(let i=0; i < $numbers.length; i++){
+        listOfNumbers.push(Number($numbers[i].textContent));
     }
 
-    return array;
-}
-
-function addResult(type, value){
-    document.querySelector(`#${type}`).textContent = value;
+    return listOfNumbers;
 }
 
 function addAllResults(numbers){
-    const [average, smallestNumber, biggestNumber, mostFrequentNumber] = calculateResults(numbers);
+    const {averageNumber, smallestNumber, biggestNumber, mostFrequentNumber} = calculateResults(numbers);
 
-    addResult('average-number', average);
-    addResult('smallest-number', smallestNumber);
-    addResult('biggest-number', biggestNumber);
-    addResult('most-frequent-number', mostFrequentNumber);
+    form.querySelector('#average-number').textContent = averageNumber;
+    form.querySelector('#smallest-number').textContent = smallestNumber;
+    form.querySelector('#biggest-number').textContent = biggestNumber;
+    form.querySelector('#most-frequent-number').textContent = mostFrequentNumber;
 }
 
-function showElementById(name){
-    document.getElementById(name).removeAttribute('hidden');
+function showElement(element){
+    element.removeAttribute('hidden');
 }
 
-function hideElementById(name){
-    document.getElementById(name).hidden = true;
+function hideElement(element){
+    element.hidden = true;
 }
 
-function enableElementById(name){
-    document.getElementById(name).disabled = false;
+function enableElement(element){
+    element.disabled = false;
 }
 
-function disableElementById(name){
-    document.getElementById(name).disabled = true;
+function disableElement(element){
+    element.disabled = true;
 }
 
-function deleteAllChildNodes(parentID){
-    const $parent = document.getElementById(parentID);
-    while($parent.firstChild){
-        $parent.removeChild($parent.lastChild);
+function deleteAllChildNodes(element){
+    while(element.firstChild){
+        element.removeChild(element.lastChild);
     }
 }
 
-$generateNumbers.onclick = function(){
-    let listOfNumbers;
-
+$generateNumbers.onclick = function(event){
+    deleteAllChildNodes(form.querySelector('#list-of-numbers'));
     createListOfNumbers();
-    listOfNumbers = getListOfNumbers();
+    showElement(form.querySelector('#btn-calculate-numbers'));
     
-    if(listOfNumbers.length !== 0){
-        addAllResults(listOfNumbers);
-        showElementById('results-paragraph');
-        disableElementById('btn-generate-numbers');
-    }
-    return false;
+    event.preventDefault();
 }
 
-$reset.onclick = function(){
-    deleteAllChildNodes('list-of-numbers');
-    hideElementById('results-paragraph');
-    enableElementById('btn-generate-numbers');
+$calculateNumbers.onclick = function(event){
+    const listOfNumbers = getListOfNumbers();
 
-    return false;
+    addAllResults(listOfNumbers);
+    showElement(form.querySelector('#results'));
+
+    event.preventDefault();
+}
+
+$resetList.onclick = function(event){
+    deleteAllChildNodes(form.querySelector('#list-of-numbers'));
+    hideElement(form.querySelector('#results'));
+    enableElement(form.querySelector('#btn-generate-numbers'));
+    form.reset();
+
+    event.preventDefault();
 }
 

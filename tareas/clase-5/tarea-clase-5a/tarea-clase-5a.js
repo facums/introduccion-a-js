@@ -1,46 +1,54 @@
-//TAREA: En otro archivo html (no Index) y otro archivo js (no tarea-clase-5.js),
-// creá un formulario que capture el primer nombre, segundo nombre, apellido/s y edad del usuario
-// también vamos a crear un <h1> que diga Bienvenido!
-// vas a crear un botón de acción que una vez que lo apretás, va a
-// mostrar toda la información junta en un campo de texto
-// Y va a cambiar el <h1> para decir "Bienvenido, nombreDeUsuario"!
-
-
-const $submitButton = document.querySelector('#submit-button');
-const $refreshPageButton = document.querySelector('#refresh-page-button');
+const $submit = document.querySelector('#btn-submit');
+const $show = document.querySelector('#btn-show');
+const $refresh = document.querySelector('#btn-refresh');
 
 function getUserData(){
-    const user = {firstName: '', secondName: '', lastName: '', age: 0};
-
-    user.firstName = document.querySelector('#user-first-name').value;
-    user.secondName = document.querySelector('#user-second-name').value;
-    user.lastName = document.querySelector('#user-last-name').value;
-    user.age = document.querySelector('#user-age').value;
-
-    return user;
+    return {
+        firstName: document.querySelector('#user-first-name').value,
+        secondName: document.querySelector('#user-second-name').value, 
+        lastName: document.querySelector('#user-last-name').value,
+        age: document.querySelector('#user-age').value
+    }
 }
 
-$submitButton.onclick = function() {
+function isUserInvalid(user){
+    return (!user.firstName || !user.secondName || !user.lastName || !user.age);
+}
+
+function showElement(element){
+    element.removeAttribute('hidden');
+}
+
+function hideElement(element){
+    element.hidden = true;
+}
+
+function disableElement(element){
+    element.disabled = true;
+}
+
+$submit.onclick = function() {
     const $welcomeTitle = document.querySelector('#welcome-title');
-    const $showButton = document.querySelector('#show-button');
-    const $displayText = document.querySelector('#text-display');
-    const currentUser = getUserData();
+    const user = getUserData();
 
-    if(!currentUser.firstName || !currentUser.secondName || !currentUser.lastName || !currentUser.age) return;
-
-    $welcomeTitle.textContent = `Welcome ${currentUser.firstName}!`;
-    $showButton.hidden = false;
-
-    $showButton.onclick = function(){
-        $submitButton.disabled = true;
-        $displayText.hidden = false;
-        $displayText.value = `Full name: ${currentUser.firstName} ${currentUser.secondName} ${currentUser.lastName}, Age: ${currentUser.age}`;
-        return false;
-    }
+    if(isUserInvalid(user)) return;
+    $welcomeTitle.textContent = `Welcome ${user.firstName}!`;
+    showElement(document.querySelector('#btn-show'));
 
     return false;
 }
 
-$refreshPageButton.onclick = function(){
+$show.onclick = function(){
+    const $userData = document.querySelector('#user-data-display');
+    const user = getUserData();
+
+    disableElement(document.querySelector('#btn-show'));
+    showElement(document.querySelector('#user-data-display'));
+    $userData.value = `Full name: ${user.firstName} ${user.secondName} ${user.lastName}, Age: ${user.age}`;
+
+    return false;
+}
+
+$refresh.onclick = function(){
     document.location.reload(true);
 }

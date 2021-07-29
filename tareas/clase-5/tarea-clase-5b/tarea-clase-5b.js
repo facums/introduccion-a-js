@@ -3,30 +3,30 @@ const $deleteVideo = document.querySelector('#delete-video');
 const $calculateVideoTime = document.querySelector('#calculate-button');
 const $reloadPage = document.querySelector('#reload-button');
 
-addVideoFields();
-
 function addVideoInputs(){
     const $hours = document.querySelectorAll('.hours-input');
     const $minutes = document.querySelectorAll('.minutes-input');
     const $seconds = document.querySelectorAll('.seconds-input');
-    let totalVideo = {hours: 0, minutes: 0, seconds: 0};
+    let totalTime = {hours: 0, minutes: 0, seconds: 0};
 
     for(let i=0; i < $hours.length; i++){
-        totalVideo.hours += Number($hours[i].value);
-        totalVideo.minutes += Number($minutes[i].value);
-        totalVideo.seconds += Number($seconds[i].value);
+        totalTime.hours += Number($hours[i].value);
+        totalTime.minutes += Number($minutes[i].value);
+        totalTime.seconds += Number($seconds[i].value);
     }
 
-    return totalVideo;
+    return totalTime;
 }
 
 function formatVideoTime(video){
-    video.minutes += Math.trunc(video.seconds / 60);
-    video.seconds %= 60;
-    video.hours += Math.trunc(video.minutes / 60);
-    video.minutes %= 60;
+    let formattedTime = Object.assign({},video);
 
-    return video;
+    formattedTime.minutes += Math.trunc(video.seconds / 60);
+    formattedTime.seconds %= 60;
+    formattedTime.hours += Math.trunc(video.minutes / 60);
+    formattedTime.minutes %= 60;
+
+    return formattedTime;
 }
 
 function showVideoTime(video){
@@ -62,7 +62,7 @@ $addVideo.onclick = function(){
 
 $deleteVideo.onclick = function(){
     const $videoForm = document.querySelector('#videos-form');
-    const $videoFields = document.querySelectorAll('.video');
+    const $videoFields = $videoForm.querySelectorAll('.video');
 
     if($videoFields.length > 1) $videoForm.lastChild.remove();
     return false;
@@ -82,3 +82,5 @@ $reloadPage.onclick = function(){
 
     return false;
 }
+
+addVideoFields();
